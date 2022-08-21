@@ -47,91 +47,110 @@ class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Column(
-        children: <Widget>[
-          new Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  Color(0xffccdce9),
-                  Color(0xfff5f9fc),
-                ], // Gradient from https://learnui.design/tools/gradient-generator.html
-                tileMode: TileMode.mirror,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0xffccdce9),
+              Color(0xfff5f9fc),
+            ], // Gradient from https://learnui.design/tools/gradient-generator.html
+            tileMode: TileMode.mirror,
+          ),
+        ),
+        child: new Column(
+          children: <Widget>[
+            SizedBox(
+              height: 20.sp,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                enableFeedback: false,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Color(0xff464a6a),
+                  size: 35,
+                ),
               ),
             ),
-            padding: EdgeInsets.symmetric(vertical: 35.sp),
-            child: new Padding(
-              padding: EdgeInsets.all(8.0.sp),
-              child: new Card(
-                child: new ListTile(
-                  leading: new Icon(Icons.search),
-                  title: new TextField(
-                    controller: controller,
-                    decoration: new InputDecoration(
-                        hintText: 'Search', border: InputBorder.none),
-                    onChanged: onSearchTextChanged,
-                  ),
-                  trailing: new IconButton(
-                    icon: const Icon(Icons.cancel),
-                    onPressed: () {
-                      controller.clear();
-                      onSearchTextChanged('');
-                    },
+            Container(
+              child: new Padding(
+                padding: EdgeInsets.all(8.0.sp),
+                child: new Card(
+                  child: new ListTile(
+                    leading: new Icon(Icons.search),
+                    title: new TextField(
+                      controller: controller,
+                      decoration: new InputDecoration(
+                          hintText: 'Search', border: InputBorder.none),
+                      onChanged: onSearchTextChanged,
+                    ),
+                    trailing: new IconButton(
+                      icon: const Icon(Icons.cancel),
+                      onPressed: () {
+                        controller.clear();
+                        onSearchTextChanged('');
+                      },
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          new Expanded(
-            child: _searchResult.length != 0 || controller.text.isNotEmpty
-                ? new ListView.builder(
-                    itemCount: _searchResult.length,
-                    itemBuilder: (context, i) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserDetail(
-                                        i: i,
-                                      )));
-                        },
-                        child: new Card(
-                          child: new ListTile(
-                            title: new Text('${_searchResult[i]}'),
+            new Expanded(
+              child: _searchResult.length != 0 || controller.text.isNotEmpty
+                  ? new ListView.builder(
+                      itemCount: _searchResult.length,
+                      itemBuilder: (context, i) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserDetail(
+                                          i: i,
+                                        )));
+                          },
+                          child: new Card(
+                            child: new ListTile(
+                              title: new Text('${_searchResult[i]}'),
+                            ),
+                            margin: EdgeInsets.all(0.0.sp),
                           ),
-                          margin: EdgeInsets.all(0.0.sp),
-                        ),
-                      );
-                    },
-                  )
-                : new ListView.builder(
-                    itemCount: _userDetails.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserDetail(
-                                        i: index,
-                                      )));
-                        },
-                        child: new Card(
-                          child: new ListTile(
-                            title: new Text(_userDetails[index] +
-                                ' ' +
-                                _userDetails[index]),
+                        );
+                      },
+                    )
+                  : new ListView.builder(
+                      itemCount: _userDetails.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserDetail(
+                                          i: index,
+                                        )));
+                          },
+                          child: new Card(
+                            child: new ListTile(
+                              title: new Text(_userDetails[index] +
+                                  ' ' +
+                                  _userDetails[index]),
+                            ),
+                            margin: EdgeInsets.all(0.0.sp),
                           ),
-                          margin: EdgeInsets.all(0.0.sp),
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        ],
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
