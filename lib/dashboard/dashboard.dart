@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/src/size_extension.dart';
 import 'package:http/http.dart' as http;
 
 List datavalue2 = [];
+List images = [];
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -28,7 +29,17 @@ class _DashBoardState extends State<DashBoard> {
     );
     setState(() {
       datavalue2 = json.decode(responses.body);
-      print(" hello :${datavalue2[0]['company']['name']}");
+      // print(" hello :${datavalue2}");
+      // for (int i = 0; i < datavalue2.length; i++) {
+      //   if (datavalue2[i]['profile_image'] != null) {
+      //     images.add(datavalue2[i]['profile_image']);
+      //   }
+      //   else if (datavalue2[i]['profile_image'] == null) {
+      //     images.add(datavalue2[i]['profile_image']);
+      //     print(" noImage :${datavalue2[i]['name']}");
+      //   }
+      //   print(" Image :${images}");
+      // }
     });
   }
 
@@ -272,13 +283,17 @@ class _DashBoardState extends State<DashBoard> {
                     Container(
                       height: 75.sp,
                       width: 75.sp,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(55.0.sp),
-                        child: Image.network(
-                          "${datavalue2[i]['profile_image']}",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child: datavalue2[i]['profile_image'] != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(55.0.sp),
+                              child: Image.network(
+                                "${datavalue2[i]['profile_image']}",
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Image.asset(
+                              "assets/images/userIcon.png",
+                            ),
                     ),
                     Container(
                       // padding: EdgeInsets.only(left: 25.sp),
